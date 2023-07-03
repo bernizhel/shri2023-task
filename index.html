@@ -42,13 +42,13 @@
             let [expanded, setExpanded] = React.useState(false);
             let [toggled, setToggled] = React.useState(false);
 
-            const onClick = () => {
+            const onClick = React.useCallback(() => {
                 if (!toggled) {
                     setToggled(true);
                 }
 
                 setExpanded(!expanded);
-            };
+            }, [toggled, setToggled, expanded, setExpanded]);
 
             return <header className="header">
                 <a href="/" className="header__logo" aria-label="Яндекс.Дом"></a>
@@ -71,7 +71,7 @@
             </header>;
         }
 
-        function Event(props) {
+        const Event = React.memo(function (props) {
             const ref = React.useRef();
 
             const { onSize } = props;
@@ -82,7 +82,7 @@
                 if (onSize) {
                     onSize({ width, height });
                 }
-            });
+            }, [ref, onSize]);
 
             return <li ref={ref} className={'event' + (props.slim ? ' event_slim' : '')}>
                 <button className="event__button">
@@ -93,7 +93,7 @@
                     }
                 </button>
             </li>;
-        }
+        });
 
         const TABS = {
             all: {
