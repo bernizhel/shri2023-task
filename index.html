@@ -202,9 +202,9 @@
                 }]
             }
         };
-        // for (let i = 0; i < 8; ++i) {
-        // TABS.all.items = [...TABS.all.items, ...TABS.all.items];
-        // }
+        for (let i = 0; i < 6; ++i) {
+            TABS.all.items = [...TABS.all.items, ...TABS.all.items];
+        }
         const TABS_KEYS = Object.keys(TABS);
 
         function Main() {
@@ -218,11 +218,11 @@
                     initedRef.current = true;
                     setActiveTab(new URLSearchParams(location.search).get('tab') || 'all');
                 }
-            });
+            }, [activeTab, initedRef, setActiveTab]);
 
-            const onSelectInput = event => {
+            const onSelectInput = React.useCallback((event) => {
                 setActiveTab(event.target.value);
-            };
+            }, [setActiveTab]);
 
             let sizes = [];
             const onSize = size => {
@@ -231,15 +231,15 @@
 
             React.useEffect(() => {
                 const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-                const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
+                // const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
                 const newHasRightScroll = sumWidth > ref.current.offsetWidth;
                 if (newHasRightScroll !== hasRightScroll) {
                     setHasRightScroll(newHasRightScroll);
                 }
-            });
+            }, [sizes, ref, hasRightScroll, setHasRightScroll]);
 
-            const onArrowCLick = () => {
+            const onArrowCLick = React.useCallback(() => {
                 const scroller = ref.current.querySelector('.section__panel:not(.section__panel_hidden)');
                 if (scroller) {
                     scroller.scrollTo({
@@ -247,7 +247,7 @@
                         behavior: 'smooth'
                     });
                 }
-            };
+            }, [ref]);
 
             return <main className="main">
                 <section className="section main__general">
