@@ -7,6 +7,6 @@ export default defineConfig({
 	plugins: [react()],
 	base: "https://bernizhel.github.io/shri2023-task/",
 	build: {
-		outDir: "dist",
+		outDir: "docs",
 	},
 });
